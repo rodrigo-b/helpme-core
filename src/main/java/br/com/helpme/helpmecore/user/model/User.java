@@ -1,7 +1,10 @@
 package br.com.helpme.helpmecore.user.model;
 
+import br.com.helpme.helpmecore.improvement.model.Improvement;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 public class User {
@@ -17,6 +20,8 @@ public class User {
 
     private LocalDateTime creation;
 
+    @OneToMany(mappedBy="user")
+    private Set<Improvement> improvements;
     public String getEmail() {
         return email;
     }

@@ -15,17 +15,21 @@ import java.util.Optional;
 @Scope("prototype")
 public class AutenticationController {
 
+    private static final String IS_AUTHENTICATED = "isAuthenticated";
+    private boolean isAuthenticated = false;
     @Autowired
     private UserService userService;
 
     @PostMapping("/login")
-    public String doLogin(User user){
+    public String doLogin(User user, Model model){
 
         Optional<User> userOptional = userService.findUserByEmailAndPassword(user);
 
-        //TODO Colocar retorno de mensagem das validações de usuário e/ou senha inválidos
-        if(userOptional.isPresent())
+        if(userOptional.isPresent()) {
+            isAuthenticated = true;
+            model.addAttribute(IS_AUTHENTICATED, isAuthenticated);
             return "index";
+        }
         else
             return null;
     }
@@ -33,7 +37,7 @@ public class AutenticationController {
     @GetMapping("/login")
     public String showLogin(Model model)
     {
-        model.addAttribute("login" , new User());
+        model.addAttribute(IS_AUTHENTICATED, isAuthenticated);
         return "login";
     }
 
