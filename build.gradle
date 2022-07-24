@@ -6,7 +6,6 @@ plugins {
 
 group = 'br.com.helpme'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '18'
 
 repositories {
 	mavenCentral()
@@ -16,6 +15,12 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: '2.7.1'
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.7.1'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation group: 'commons-codec', name: 'commons-codec', version: '1.15'
+
+	runtimeOnly 'mysql:mysql-connector-java'
+
+	compileOnly 'org.projectlombok:lombok:1.18.24'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
