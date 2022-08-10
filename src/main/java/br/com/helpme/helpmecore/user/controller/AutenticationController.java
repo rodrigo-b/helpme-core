@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.Optional;
 
@@ -21,14 +22,14 @@ public class AutenticationController {
     private UserService userService;
 
     @PostMapping("/login")
-    public String doLogin(User user, Model model){
+    public RedirectView doLogin(User user, Model model){
 
         Optional<User> userOptional = userService.findUserByEmailAndPassword(user);
 
         if(userOptional.isPresent()) {
             isAuthenticated = true;
             model.addAttribute(IS_AUTHENTICATED, isAuthenticated);
-            return "index";
+            return new RedirectView("/");
         }
         else
             return null;
