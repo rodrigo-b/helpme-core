@@ -1,41 +1,18 @@
-<!--
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:fragment="headerfiles-layout">
+    <th:block th:include="navbar :: headerfiles-navbar"></th:block>
+    <th:block th:include="sidebar :: headerfiles-sidebar"></th:block>
+</head>
 
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="initial-scale=1, width=device-width">
-    </head>
+<body th:fragment="layout-body">
 
-    <body th:fragment="layout">
-        <nav class="bg-dark border navbar navbar-expand-md navbar-dark">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="/"><span class="green">Helpme</span></a>
-            </div>
-            <div class="collapse navbar-collapse" id="navbar">
-                &lt;!&ndash; <div th:if="${isAuthenticated}"> &ndash;&gt;
-                <div>
-                    <ul class="navbar-nav me-auto mt-3">
-                        <li class="nav-item"><a class="nav-link" href="/quote">Quote</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/buy">Buy</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/sell">Sell</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/history">History</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
 
-        <div class="col-3 order-2" id="sticky-sidebar">
-            <div class="sticky-top">
-                <div class="nav flex-column">
-                    <a href="#_" class="nav-link">Link</a>
-                    <a href="#_" class="nav-link">Link</a>
-                    <a href="#_" class="nav-link">Link</a>
-                    <a href="#_" class="nav-link">Link</a>
-                    <a href="#_" class="nav-link">Link</a>
-                </div>
-            </div>
-        </div>
-    </body>
-</html>-->
+    <div th:insert="navbar :: nav-body"></div>
+    <div th:insert="sidebar :: sidebar-body"></div>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</body>
+</html>

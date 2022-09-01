@@ -19,7 +19,7 @@ public class IndexController {
     @Autowired
     private ImprovementService improvementService;
 
-    @GetMapping("/")
+    @GetMapping("/index")
     public String showIndex(Model model){
 
         List<Improvement> topFiveImprovementsByLike = improvementService.findTopFiveImprovementsByLike();

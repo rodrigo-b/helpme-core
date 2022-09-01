@@ -5,8 +5,8 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <th:block th:include="sidebar :: headerfiles"></th:block>
     <title>Dashboard Template for Bootstrap</title>
+    <th:block th:include="layout :: headerfiles-layout"></th:block>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <!-- Bootstrap core CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -74,12 +74,14 @@
 
 <body>
     <main>
-        <div th:insert="sidebar :: navDoido"></div>
+
+        <div th:insert="layout :: layout-body"></div>
+
         <div class="container-fluid">
             <div class="row">
-                <div th:insert="sidebar :: sidebarDoido"></div>
                 <div class="col-sm-12 main">
                     <div class="row">
+
                         <h1 class="page-header">Dashboard</h1>
                         <div id="piechart" style="width: 900px; height: 500px;"></div>
 

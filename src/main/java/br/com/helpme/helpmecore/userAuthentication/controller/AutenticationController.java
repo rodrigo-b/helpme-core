@@ -1,4 +1,4 @@
-package br.com.helpme.helpmecore.user.controller;
+package br.com.helpme.helpmecore.userAuthentication.controller;
 
 import br.com.helpme.helpmecore.user.model.User;
 import br.com.helpme.helpmecore.user.service.UserService;
@@ -32,7 +32,7 @@ public class AutenticationController {
             return new RedirectView("/");
         }
         else
-            return null;
+            return new RedirectView("/login");
     }
 
     @GetMapping("/login")
