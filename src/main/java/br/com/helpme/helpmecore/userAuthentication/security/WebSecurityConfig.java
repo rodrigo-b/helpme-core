@@ -33,52 +33,97 @@ public class SecurityConfigurations implements SecurityFilterChain, WebSecurityC
 */
 package br.com.helpme.helpmecore.userAuthentication.security;
 
+import br.com.helpme.helpmecore.userAuthentication.service.CustomUserDetailService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @EnableWebSecurity
-public class WebSecurityConfig {
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private  CustomUserDetailService customUserDetailService;
+
+    private  boolean securityDebug = true;
+
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .httpBasic()
+                .and()
+                .authorizeHttpRequests()
+                .antMatchers(HttpMethod.GET, "/login").permitAll()
+                .antMatchers("/resources/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/").hasRole("USER")
+                .anyRequest().authenticated()
+                .and()
+                .csrf().disable()
+                .formLogin(httpSecurityFormLoginConfigurer -> {
+                    httpSecurityFormLoginConfigurer.loginPage("/login");
+                    httpSecurityFormLoginConfigurer.defaultSuccessUrl("/index",true);
+                    httpSecurityFormLoginConfigurer.usernameParameter("email");
+                    httpSecurityFormLoginConfigurer.passwordParameter("password");
+                });
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(customUserDetailService)
+                .passwordEncoder(passwordEncoder());
+
+    }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+    public PasswordEncoder passwordEncoder() {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        System.out.println("teste = "+encoder.encode("teste"));
+        return encoder;
+    }
+
+ /*   public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
         httpSecurity.authorizeRequests( (requests) -> {
                         requests
+                            .antMatchers(HttpMethod.GET, "/index").hasRole(RoleName.ROLE_USER.getRoleWithoutPrefix())
                             .anyRequest().authenticated();
                     })
                     .formLogin((form) -> {
                         form.loginPage("/login")
                         .permitAll();
                     })
-                    .logout( (logout) -> logout.permitAll());
+                    .csrf().disable();
+                    //.authenticationManager(authentication -> authentication.)
+                   // .logout( (logout) -> logout.permitAll());
 
         return httpSecurity.build();
     }
 
-  /*  @Bean
-    public UserDetailsService userDetailsService() throws Exception {
-        // ensure the passwords are encoded properly
-        User.UserBuilder users = User.withDefaultPasswordEncoder();
-        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        manager.createUser(users.username("user").password("password").roles("USER").build());
-        manager.createUser(users.username("admin").password("password").roles("USER","ADMIN").build());
-        return manager;
-    }
-
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.debug(securityDebug)
+                .ignoring()
+                .antMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/favicon.ico");
+    }*/
 
-        http
-           .authorizeRequests(authorize ->
-                   authorize.anyRequest()
-                            .authenticated()
-           )
-           .formLogin(Customizer.withDefaults())
-           .httpBasic(Customizer.withDefaults());
+    /*@Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }*/
 
-           return http.build();
+/*    @Bean
+    public AuthenticationManager authManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder, UserDetailsService userDetailService)
+            throws Exception {
+        return http.getSharedObject(AuthenticationManagerBuilder.class)
+                .userDetailsService(customUserDetailService)
+                .passwordEncoder(bCryptPasswordEncoder)
+                .and()
+                .build();
     }*/
 }

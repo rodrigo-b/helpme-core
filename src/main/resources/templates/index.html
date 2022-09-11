@@ -5,7 +5,7 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Dashboard Template for Bootstrap</title>
+    <title>home</title>
     <th:block th:include="layout :: headerfiles-layout"></th:block>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <!-- Bootstrap core CSS -->
@@ -121,7 +121,7 @@
                 data.addColumn('number', 'Porcent');
 
 
-                var dataList = /*[[${classificationsPorcents}]]*/ [];
+                var dataList = [[${classificationsPorcents}]];
 
                 for (var i = 0; i < dataList.length; i++) {
                     data.addRow([dataList[i].classification, dataList[i].totalLikesInPorcent]);
