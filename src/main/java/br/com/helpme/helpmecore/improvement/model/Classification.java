@@ -17,10 +17,10 @@ public enum Classification {
         this.classification = classification;
     }
 
-    public Optional<Classification> getEnumByClassificationText(String classificationText){
+    public static Optional<Classification> getEnumByClassificationText(String classificationText){
 
         Optional<Classification> classificationOptional = Arrays.stream(values())
-                .filter(classificationEnum -> classificationEnum.classification.equals(classificationText))
+                .filter(classificationEnum -> classificationEnum.classification.equalsIgnoreCase(classificationText))
                 .findAny();
 
         return classificationOptional;

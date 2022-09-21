@@ -29,7 +29,7 @@ public class ImprovementController {
         String message = improvementDto.getMessage();
 
 
-        return null;
+        return "index";
     }
 
 

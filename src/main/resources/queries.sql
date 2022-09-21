@@ -45,7 +45,7 @@ CREATE TABLE user_roles(
 );
 
 ---- INSERT TABLE
-INSERT INTO user(name,email,uPassword, creation) VALUES ('teste','teste@gmail.com', 'teste', CURDATE());
+INSERT INTO user(name,email,password, creation) VALUES ('teste','teste@gmail.com', '$2a$12$DDv92dSxeStNqPmMvV0z3.R5R07MW5i6GgdD1snOtI40pDf0MdMJm', CURDATE());
 
 INSERT INTO improvement (title,message, likes, classification, id_user) VALUES ('FINANCE BILLS','BILLS NOT SHOWED ', 60, 'FINANCIAL', 1);
 INSERT INTO improvement (title,message, likes, classification, id_user) VALUES ('PLAY ROOM','PLAY ROOM CLOSED ', 10, 'LEISURE', 1);

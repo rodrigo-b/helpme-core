@@ -86,6 +86,7 @@
                         <div id="piechart" style="width: 900px; height: 500px;"></div>
 
                         <h2 class="sub-header">TOP 5 IMPROVEMENTS</h2>
+
                         <div class="table-responsive">
                              <table class="table table-striped">
                                  <thead class="thead-dark">
@@ -96,6 +97,7 @@
                                  </tr>
                                  </thead>
                                  <tbody>
+
                                  <tr th:each="improvement: ${improvements}">
                                      <td th:text="${improvement.title}" />
                                      <td th:text="${improvement.classification}" />

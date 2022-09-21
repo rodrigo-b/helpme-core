@@ -3,6 +3,7 @@ package br.com.helpme.helpmecore.user.model;
 import br.com.helpme.helpmecore.improvement.model.Improvement;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,7 +15,7 @@ import java.util.Set;
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_USER")
     private long idUser;
 
@@ -125,4 +126,5 @@ public class User implements UserDetails {
     public void setImprovements(Set<Improvement> improvements) {
         this.improvements = improvements;
     }
+
 }

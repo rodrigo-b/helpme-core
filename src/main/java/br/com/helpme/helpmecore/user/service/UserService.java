@@ -14,10 +14,10 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public Optional<User> findUserByEmailAndPassword(User user){
-
-        String digestPassword = new DigestUtils("SHA3-256").digestAsHex(user.getPassword());
-        return userRepository.findByEmailAndPassword(user.getEmail() , digestPassword);
+    public Optional<User> findByEmail(String email){
+        return userRepository.findByEmail(email);
     }
+
+
 
 }

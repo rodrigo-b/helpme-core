@@ -1,14 +1,19 @@
 package br.com.helpme.helpmecore.improvement.service;
 
+import br.com.helpme.helpmecore.improvement.dto.ImprovementDto;
 import br.com.helpme.helpmecore.improvement.model.ClassificationPorcent;
 import br.com.helpme.helpmecore.improvement.model.Improvement;
 import br.com.helpme.helpmecore.improvement.repository.ImprovementRepository;
+import br.com.helpme.helpmecore.user.model.User;
+import br.com.helpme.helpmecore.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -17,7 +22,20 @@ import java.util.stream.Collectors;
 public class ImprovementService {
 
     @Autowired
+    private UserService userService;
+    @Autowired
     private ImprovementRepository improvementRepository;
+
+    public Improvement save(Improvement improvement, String email){
+        Optional<User> userOptional = userService.findByEmail(email);
+        if(userOptional.isPresent()){
+            improvement.setUser(userOptional.get());
+            return improvementRepository.save(improvement);
+        }else {
+            throw new RuntimeException("Invalid user");
+        }
+
+    }
 
     public List<Improvement> findTopFiveImprovementsByLike(){
         return improvementRepository.findTop5ByOrderByLikesDesc();
@@ -61,4 +79,15 @@ public class ImprovementService {
     }
 
 
+    public Page<ImprovementDto> findAll(Pageable pageable) {
+
+        Page<Improvement> improvements = improvementRepository.findAll(pageable);
+
+        List<ImprovementDto> improvementDtos = improvements.stream()
+                .map(improvement -> new ImprovementDto(improvement))
+                .collect(Collectors.toList());
+
+        return new PageImpl<ImprovementDto>(improvementDtos);
+
+    }
 }

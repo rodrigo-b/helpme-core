@@ -10,6 +10,7 @@ public class Improvement {
 
     @Id
     @Column(name = "ID_IMPROVEMENT")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String title;
     private String message;
@@ -21,6 +22,15 @@ public class Improvement {
     @ManyToOne
     @JoinColumn(name="ID_USER", nullable=false)
     private User user;
+
+    public Improvement() {
+    }
+
+    public Improvement(String title, String message, Classification classification) {
+        this.title = title;
+        this.message = message;
+        this.classification = classification;
+    }
 
     public String getTitle() {
         return title;
@@ -52,5 +62,13 @@ public class Improvement {
 
     public void setClassification(Classification classification) {
         this.classification = classification;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
