@@ -79,15 +79,12 @@ public class ImprovementService {
     }
 
 
-    public Page<ImprovementDto> findAll(Pageable pageable) {
+    public Page<Improvement> findAll(Pageable pageable) {
 
         Page<Improvement> improvements = improvementRepository.findAll(pageable);
 
-        List<ImprovementDto> improvementDtos = improvements.stream()
-                .map(improvement -> new ImprovementDto(improvement))
-                .collect(Collectors.toList());
 
-        return new PageImpl<ImprovementDto>(improvementDtos);
+        return improvements;
 
     }
 }
