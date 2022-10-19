@@ -4,6 +4,7 @@ import br.com.helpme.helpmecore.improvement.dto.ImprovementDto;
 import br.com.helpme.helpmecore.improvement.model.Classification;
 import br.com.helpme.helpmecore.improvement.model.Improvement;
 import br.com.helpme.helpmecore.improvement.service.ImprovementService;
+import br.com.helpme.helpmecore.improvement.util.PageNumbers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
@@ -44,7 +45,12 @@ public class ImprovementController {
     public String findAll(Model model, Pageable pageable){
 
         Page<Improvement> improvements = improvementService.findAll(pageable);
+        PageNumbers pageNumbers = new PageNumbers(improvements);
+
         model.addAttribute("improvements", improvements);
+        model.addAttribute("pages", pageNumbers.getPages());
+        model.addAttribute("next", pageNumbers.getNextPage());
+        model.addAttribute("previuos", pageNumbers.getPreviousPage());
 
         return  "allImprovements";
     }

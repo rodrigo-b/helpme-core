@@ -1,15 +1,14 @@
 package br.com.helpme.helpmecore.improvement.service;
 
-import br.com.helpme.helpmecore.improvement.dto.ImprovementDto;
 import br.com.helpme.helpmecore.improvement.model.ClassificationPorcent;
 import br.com.helpme.helpmecore.improvement.model.Improvement;
 import br.com.helpme.helpmecore.improvement.repository.ImprovementRepository;
+import br.com.helpme.helpmecore.improvement.util.PageNumbers;
 import br.com.helpme.helpmecore.user.model.User;
 import br.com.helpme.helpmecore.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -80,11 +79,7 @@ public class ImprovementService {
 
 
     public Page<Improvement> findAll(Pageable pageable) {
-
-        Page<Improvement> improvements = improvementRepository.findAll(pageable);
-
-
-        return improvements;
-
+        Page<Improvement> allPages = improvementRepository.findAll(pageable);
+        return allPages;
     }
 }
