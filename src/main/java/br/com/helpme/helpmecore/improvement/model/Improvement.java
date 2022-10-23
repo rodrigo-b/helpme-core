@@ -19,7 +19,7 @@ public class Improvement {
     @Enumerated(EnumType.STRING)
     private Classification classification;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="ID_USER", nullable=false)
     private User user;
 

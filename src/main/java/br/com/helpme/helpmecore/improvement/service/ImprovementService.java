@@ -3,7 +3,6 @@ package br.com.helpme.helpmecore.improvement.service;
 import br.com.helpme.helpmecore.improvement.model.ClassificationPorcent;
 import br.com.helpme.helpmecore.improvement.model.Improvement;
 import br.com.helpme.helpmecore.improvement.repository.ImprovementRepository;
-import br.com.helpme.helpmecore.improvement.util.PageNumbers;
 import br.com.helpme.helpmecore.user.model.User;
 import br.com.helpme.helpmecore.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,5 +80,17 @@ public class ImprovementService {
     public Page<Improvement> findAll(Pageable pageable) {
         Page<Improvement> allPages = improvementRepository.findAll(pageable);
         return allPages;
+    }
+
+    public Page<Improvement> findAllUserImprovements(Pageable pageable, String email) {
+
+        Optional<User> userOptional = userService.findByEmail(email);
+
+        if(userOptional.isPresent()) {
+            Page<Improvement> improvements = improvementRepository.findAllByUserId(userOptional.get().getIdUser(),pageable);
+            return improvements;
+        }
+
+        throw new RuntimeException("Invallid user");
     }
 }

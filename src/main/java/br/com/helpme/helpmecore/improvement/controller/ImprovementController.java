@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+import java.util.Set;
+
 @Controller
 @Scope("prototype")
 @RequestMapping(value = "/improvements")
@@ -28,7 +31,6 @@ public class ImprovementController {
     public String showImprovementForm(Model model){
         model.addAttribute("classifications", Classification.values());
         return "newImprovement.html";
-
     }
 
     @PostMapping
@@ -55,6 +57,22 @@ public class ImprovementController {
         return  "allImprovements";
     }
 
+    @GetMapping("/user")
+    public String findAllUserImprovements(Model model, Pageable pageable) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+
+        Page<Improvement> improvements = improvementService.findAllUserImprovements(pageable, email);
+        PageNumbers pageNumbers = new PageNumbers(improvements);
+
+        model.addAttribute("improvements", improvements);
+        model.addAttribute("pages", pageNumbers.getPages());
+        model.addAttribute("next", pageNumbers.getNextPage());
+        model.addAttribute("previuos", pageNumbers.getPreviousPage());
+
+        return "userImprovement";
+    }
 
 }
 

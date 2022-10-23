@@ -3,7 +3,6 @@ package br.com.helpme.helpmecore.user.model;
 import br.com.helpme.helpmecore.improvement.model.Improvement;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

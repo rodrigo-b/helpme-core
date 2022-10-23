@@ -70,7 +70,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     httpSecurityFormLoginConfigurer.defaultSuccessUrl("/index",true);
                     httpSecurityFormLoginConfigurer.usernameParameter("email");
                     httpSecurityFormLoginConfigurer.passwordParameter("password");
-                });
+                    })
+                .logout()
+                    .logoutUrl("/logout")
+                    .logoutSuccessUrl("/login")
+                    .invalidateHttpSession(true);
     }
 
     @Override
