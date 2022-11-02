@@ -50,17 +50,22 @@
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="/users/profile">Edit</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/users/changepassword">Change Password</a>
+                            <a class="dropdown-item" href="/users/password">Change Password</a>
                         </div>
                     </li>
                     <li><a href="/logout">Logout</a></li>
                 </ul>
-                <form class="navbar-form navbar-right">
-                    <input type="text" class="form-control" placeholder="Search...">
+                <form class="navbar-form navbar-right" action="/" method="get">
+                    <input type="text" class="form-control" placeholder="Search Improvement">
+                    <button type="button" class="btn btn-default">
+                        <span class="glyphicon
+                        glyphicon-search"></span>
+                    </button>
                 </form>
             </div>
         </div>
     </nav>
+
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>

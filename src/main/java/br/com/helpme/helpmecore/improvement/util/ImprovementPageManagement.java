@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PageNumbers {
+public class ImprovementPageManagement {
 
     private int previousPage;
     private int nextPage;
@@ -15,12 +15,22 @@ public class PageNumbers {
 
     private List<Integer> pages;
 
-    public PageNumbers(final Page<Improvement> allPages) {
+    public ImprovementPageManagement(final Page<Improvement> allPages) {
         this.currentPage = allPages.getNumber();
         this.totalPages = allPages.getTotalPages();
         pages = new ArrayList<>();
         updatePages();
     }
+
+    public ImprovementPageManagement(List<Improvement> improvements) {
+        int initialPage = 0;
+        this.currentPage = initialPage;
+        this.totalPages = improvements.size();
+        pages = new ArrayList<>();
+        updatePages();
+    }
+
+
 
     public void updatePages(){
         updatePreviousPage();

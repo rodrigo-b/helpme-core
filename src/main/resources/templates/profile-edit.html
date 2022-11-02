@@ -1,0 +1,102 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+
+    <meta name="description" content="insert new improvement">
+    <meta name="author" content="">
+    <title>New Improvement</title>
+    <th:block th:include="layout :: headerfiles-layout"></th:block>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <!-- Bootstrap core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Custom styles for this template -->
+    <style>
+          /*
+            * Base structure
+            */
+
+            /* Move down content because we have a fixed navbar that is 50px tall */
+            body {
+                padding-top: 50px;
+            }
+
+            /*
+            * Global add-ons
+            */
+            .sub-header {
+                padding-bottom: 10px;
+                border-bottom: 1px solid #eee;
+            }
+
+            /*
+            * Main content
+            */
+            .main {
+                padding-top: 80px;
+                margin-left: 250px;
+            }
+
+            @media (min-width: 768px) {
+                .main {
+                    padding-right: 130px;
+                    padding-left: 150px;
+                }
+            }
+            .main .page-header {
+                margin-top: 0;
+            }
+
+
+            /*
+            * Placeholder dashboard ideas
+            */
+
+            .placeholders {
+                margin-bottom: 30px;
+                text-align: center;
+            }
+            .placeholders h4 {
+                margin-bottom: 0;
+            }
+            .placeholder {
+                margin-bottom: 20px;
+            }
+            .placeholder img {
+                display: inline-block;
+                border-radius: 50%;
+            }
+        </style>
+
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+</head>
+
+<body>
+<main>
+
+    <div th:insert="layout :: layout-body"></div>
+
+    <div class="container">
+        <div class="main">
+            <form class="form-example" action="/users/profile/edit" method="post" >
+                <div>
+                    <label>Email address: </label>
+                    <input type="text" name="email" id="email" class="form-control"  th:value="${user.email}">
+                </div>
+
+                <div>
+                    <label>Name: </label>
+                    <input type="text" name="name" id="name" class="form-control" th:value="${user.name}">
+                </div>
+
+                <div class="col-md-12 text-center mx-auto">
+                    <button type="Edit" class="btn btn-primary">Save</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</main>
+</body>
+</html>

@@ -4,7 +4,7 @@ import br.com.helpme.helpmecore.improvement.dto.ImprovementDto;
 import br.com.helpme.helpmecore.improvement.model.Classification;
 import br.com.helpme.helpmecore.improvement.model.Improvement;
 import br.com.helpme.helpmecore.improvement.service.ImprovementService;
-import br.com.helpme.helpmecore.improvement.util.PageNumbers;
+import br.com.helpme.helpmecore.improvement.util.ImprovementPageManagement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
-import java.util.Set;
 
 @Controller
 @Scope("prototype")
@@ -40,19 +39,19 @@ public class ImprovementController {
         String email = authentication.getName();
         improvementService.save(improvementDto.toImprovement(), email);
 
-        return "index";
+        return "redirect:index";
     }
 
     @GetMapping("/all")
     public String findAll(Model model, Pageable pageable){
 
         Page<Improvement> improvements = improvementService.findAll(pageable);
-        PageNumbers pageNumbers = new PageNumbers(improvements);
+        ImprovementPageManagement improvementPageManagement = new ImprovementPageManagement(improvements);
 
         model.addAttribute("improvements", improvements);
-        model.addAttribute("pages", pageNumbers.getPages());
-        model.addAttribute("next", pageNumbers.getNextPage());
-        model.addAttribute("previuos", pageNumbers.getPreviousPage());
+        model.addAttribute("pages", improvementPageManagement.getPages());
+        model.addAttribute("next", improvementPageManagement.getNextPage());
+        model.addAttribute("previuos", improvementPageManagement.getPreviousPage());
 
         return  "allImprovements";
     }
@@ -64,14 +63,29 @@ public class ImprovementController {
         String email = authentication.getName();
 
         Page<Improvement> improvements = improvementService.findAllUserImprovements(pageable, email);
-        PageNumbers pageNumbers = new PageNumbers(improvements);
+        ImprovementPageManagement improvementPageManagement = new ImprovementPageManagement(improvements);
 
         model.addAttribute("improvements", improvements);
-        model.addAttribute("pages", pageNumbers.getPages());
-        model.addAttribute("next", pageNumbers.getNextPage());
-        model.addAttribute("previuos", pageNumbers.getPreviousPage());
+        model.addAttribute("pages", improvementPageManagement.getPages());
+        model.addAttribute("next", improvementPageManagement.getNextPage());
+        model.addAttribute("previuos", improvementPageManagement.getPreviousPage());
 
         return "userImprovement";
+    }
+
+    @GetMapping("/search")
+    public String searchImprovement(String improvementSearch, Model model){
+
+        List<Improvement> improvements = improvementService.findSimilarityImprovements(improvementSearch);
+        ImprovementPageManagement improvementPageManagement = new ImprovementPageManagement(improvements);
+
+        model.addAttribute("improvementSearch",improvementSearch);
+        model.addAttribute("improvements", improvements);
+        model.addAttribute("pages", improvementPageManagement.getPages());
+        model.addAttribute("next", improvementPageManagement.getNextPage());
+        model.addAttribute("previuos", improvementPageManagement.getPreviousPage());
+
+        return "seachResult";
     }
 
 }

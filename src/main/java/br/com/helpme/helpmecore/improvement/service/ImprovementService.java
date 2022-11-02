@@ -3,6 +3,7 @@ package br.com.helpme.helpmecore.improvement.service;
 import br.com.helpme.helpmecore.improvement.model.ClassificationPorcent;
 import br.com.helpme.helpmecore.improvement.model.Improvement;
 import br.com.helpme.helpmecore.improvement.repository.ImprovementRepository;
+import br.com.helpme.helpmecore.improvement.util.ImprovementPageManagement;
 import br.com.helpme.helpmecore.user.model.User;
 import br.com.helpme.helpmecore.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ public class ImprovementService {
     private UserService userService;
     @Autowired
     private ImprovementRepository improvementRepository;
+
+    @Autowired
+    private SimilarityService similarityService;
 
     public Improvement save(Improvement improvement, String email){
         Optional<User> userOptional = userService.findByEmail(email);
@@ -82,6 +86,10 @@ public class ImprovementService {
         return allPages;
     }
 
+    public List<Improvement> findAllWithoutPagination(){
+        return improvementRepository.findAll();
+    }
+
     public Page<Improvement> findAllUserImprovements(Pageable pageable, String email) {
 
         Optional<User> userOptional = userService.findByEmail(email);
@@ -92,5 +100,17 @@ public class ImprovementService {
         }
 
         throw new RuntimeException("Invallid user");
+    }
+
+    public List<Improvement> findSimilarityImprovements(String improvementSearch) {
+
+        return findAllWithoutPagination()
+                .stream()
+                .filter(improvement -> {
+                    double similarity = similarityService.checkSimilarity(improvementSearch, improvement.getTitle());
+                    return similarity >= 40.0;
+                })
+                .toList();
+
     }
 }
