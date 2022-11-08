@@ -9,13 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,10 +26,25 @@ public class ImprovementController {
 
     @Autowired
     private ImprovementService improvementService;
-    @GetMapping
+    @GetMapping("/new")
     public String showImprovementForm(Model model){
         model.addAttribute("classifications", Classification.values());
         return "newImprovement.html";
+    }
+
+    @Async
+    @PostMapping("/count")
+    public ResponseEntity<?> countImprovementLike(){
+
+
+        System.out.println("PAsssou aquui");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+
+
+
+
+        return ResponseEntity.ok(null);
     }
 
     @PostMapping
@@ -43,12 +58,18 @@ public class ImprovementController {
     }
 
     @GetMapping("/all")
-    public String findAll(Model model, Pageable pageable){
+    public String findAll(Model model, Pageable pageable , @RequestParam List<Improvement> specificImprovements){
 
-        Page<Improvement> improvements = improvementService.findAll(pageable);
-        ImprovementPageManagement improvementPageManagement = new ImprovementPageManagement(improvements);
+        ImprovementPageManagement improvementPageManagement;
+        if(specificImprovements.isEmpty()){
+            Page<Improvement> improvements = improvementService.findAll(pageable);
+            improvementPageManagement = new ImprovementPageManagement(improvements);
+            model.addAttribute("improvements", improvements);
+        }else{
+            improvementPageManagement = new ImprovementPageManagement(specificImprovements);
+            model.addAttribute("improvements", specificImprovements);
+        }
 
-        model.addAttribute("improvements", improvements);
         model.addAttribute("pages", improvementPageManagement.getPages());
         model.addAttribute("next", improvementPageManagement.getNextPage());
         model.addAttribute("previuos", improvementPageManagement.getPreviousPage());
@@ -74,18 +95,13 @@ public class ImprovementController {
     }
 
     @GetMapping("/search")
-    public String searchImprovement(String improvementSearch, Model model){
+    public String searchImprovement(@RequestParam  String search, Model model){
 
-        List<Improvement> improvements = improvementService.findSimilarityImprovements(improvementSearch);
-        ImprovementPageManagement improvementPageManagement = new ImprovementPageManagement(improvements);
+        List<Improvement> improvements = improvementService.findSimilarityImprovements(search);
 
-        model.addAttribute("improvementSearch",improvementSearch);
         model.addAttribute("improvements", improvements);
-        model.addAttribute("pages", improvementPageManagement.getPages());
-        model.addAttribute("next", improvementPageManagement.getNextPage());
-        model.addAttribute("previuos", improvementPageManagement.getPreviousPage());
+        return "searchResult";
 
-        return "seachResult";
     }
 
 }
