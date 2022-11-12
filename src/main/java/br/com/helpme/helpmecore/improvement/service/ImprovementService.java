@@ -113,4 +113,7 @@ public class ImprovementService {
                 .toList();
 
     }
+
+    public void addLike(String email, String title) {
+    }
 }

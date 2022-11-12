@@ -32,17 +32,14 @@ public class ImprovementController {
         return "newImprovement.html";
     }
 
-    @Async
     @PostMapping("/count")
-    public ResponseEntity<?> countImprovementLike(){
-
+    public ResponseEntity<?> countImprovementLike(@RequestBody String title){
 
         System.out.println("PAsssou aquui");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
 
-
-
+        improvementService.addLike(email, title);
 
         return ResponseEntity.ok(null);
     }

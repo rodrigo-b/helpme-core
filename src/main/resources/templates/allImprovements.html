@@ -95,9 +95,7 @@
                   <td th:text="${improvement.title}" />
                   <td th:text="${improvement.classification}" />
                   <td>
-                    <button  type="button" class="btn btn-default" onclick="buttomClick()">
-                        <span class="glyphicon glyphicon-thumbs-up"></span>
-                    </button>
+                    <button th:id="${improvement.title}" type="button" class="btn btn-default glyphicon glyphicon-thumbs-up" onclick="buttomClick(this.id)"></button>
                     <span th:text="${improvement.likes}"></span>
                   </td>
                 </tr>
@@ -127,15 +125,21 @@
   </main>
 
   <script>
-    async function buttomClick(){
+    async function buttomClick(buttomId){
 
          const endPoint = "http://localhost:8080/improvements/count";
        try{
           const response = await fetch(endPoint, {
               cache: 'no-cache',
-              method: 'POST'});
+              method: 'POST',
+              body: JSON.stringify({title: buttomId})
+          });
           if(response.ok){
               console.log("ROOOOOLOOOOU");
+              console.log("id do butão = " + buttomId)
+              var buttom = document.getElementById(buttomId);
+              buttom.style.backgroundColor = "LightBlue";
+
           }
        }catch(error){
           console.log("NAAAAAOOO FOOOOOI")

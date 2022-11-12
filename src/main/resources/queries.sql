@@ -3,45 +3,56 @@ CREATE DATABASE cs50;
 USE cs50;
 
 ---- TABLES CREATION
-CREATE TABLE user (
-				   id_user INT AUTO_INCREMENT NOT NULL,
-				   name VARCHAR(200) NOT NULL,
-				   email VARCHAR(200) NOT NULL,
-				   password VARCHAR(200) NOT NULL,
-				   creation DATE NOT NULL,
-				   CONSTRAINT roundemail_unique UNIQUE(email),
-				   PRIMARY KEY(id_user)
+CREATE TABLE user (  \
+				   id_user INT AUTO_INCREMENT NOT NULL,            \
+				   name VARCHAR(200) NOT NULL,                     \
+				   email VARCHAR(200) NOT NULL,                    \
+				   password VARCHAR(200) NOT NULL,                 \
+				   creation DATE NOT NULL,                         \
+				   CONSTRAINT roundemail_unique UNIQUE(email),     \
+				   PRIMARY KEY(id_user)                            \
 				  );
 
 
-CREATE TABLE improvement (
-		id_improvement INT AUTO_INCREMENT NOT NULL,
-		title VARCHAR(200) NOT NULL,
-		message  TEXT NOT NULL,
-		likes INT DEFAULT 0,
-		classification VARCHAR(200),
-		id_user INT NOT NULL,
-		PRIMARY KEY(id_improvement),
-		CONSTRAINT fk_user_improvement
-		FOREIGN KEY(id_user) REFERENCES user(id_user)
+CREATE TABLE improvement (                                   \
+		id_improvement INT AUTO_INCREMENT NOT NULL,          \
+		title VARCHAR(200) NOT NULL,                         \
+		message  TEXT NOT NULL,                              \
+		likes INT DEFAULT 0,                                 \
+		classification VARCHAR(200),                         \
+		id_user INT NOT NULL,                                \
+		PRIMARY KEY(id_improvement),                         \
+		CONSTRAINT fk_user_improvement                       \
+		FOREIGN KEY(id_user) REFERENCES user(id_user)        \
 );
 
-
-CREATE TABLE role (
-    id_role INT AUTO_INCREMENT NOT NULL,
-    role_name VARCHAR(100) NOT NULL,
-    PRIMARY KEY(id_role)
+CREATE TABLE role (                                         \
+    id_role INT AUTO_INCREMENT NOT NULL,                    \
+    role_name VARCHAR(100) NOT NULL,                        \
+    PRIMARY KEY(id_role)                                    \
 );
 
-CREATE TABLE user_roles(
-    id_user_role INT AUTO_INCREMENT NOT NULL,
-    id_role INT NOT NULL,
-    id_user INT NOT NULL,
-    PRIMARY KEY (id_user_role),
-    CONSTRAINT fk_id_user
-    FOREIGN KEY(id_user) REFERENCES user(id_user),
-    CONSTRAINT fk_id_role
-    FOREIGN KEY(id_role) REFERENCES role(id_role)
+CREATE TABLE user_roles(                                    \
+    id_user_role INT AUTO_INCREMENT NOT NULL,               \
+    id_role INT NOT NULL,                                   \
+    id_user INT NOT NULL,                                   \
+    PRIMARY KEY (id_user_role),                             \
+    CONSTRAINT fk_id_user                                   \
+    FOREIGN KEY(id_user) REFERENCES user(id_user),          \
+    CONSTRAINT fk_id_role                                   \
+    FOREIGN KEY(id_role) REFERENCES role(id_role)           \
+);
+
+CREATE TABLE user_improvement (                                              \
+      id_user_improvement  INT AUTO_INCREMENT NOT NULL,                      \
+      id_user INT NOT NULL,                                                  \
+      id_improvement INT NOT NULL,                                           \
+      liked INT NOT NULL, -- IF 1 user liked and IF 0 user desliked          \
+      PRIMARY KEY (id_user_improvement),                                     \
+      CONSTRAINT fk_id_user_like                                             \
+      FOREIGN KEY(id_user) REFERENCES user(id_user),                         \
+      CONSTRAINT fk_id_improvement_like                                      \
+      FOREIGN KEY(id_improvement) REFERENCES improvement(id_improvement)     \
 );
 
 ---- INSERT TABLE
@@ -59,6 +70,6 @@ INSERT INTO role (role_name) VALUES ('ROLE_USER');
 INSERT INTO user_roles (id_role, id_user) VALUES (1,1);
 
 ---- SELECTS
-SELECT classification, round((count(*) * 100.0 / sum(count(*)) Over() ),2) as 'total'
-FROM improvement
+SELECT classification, round((count(*) * 100.0 / sum(count(*)) Over() ),2) as 'total'   \
+FROM improvement                                                                        \
 GROUP BY classification;
