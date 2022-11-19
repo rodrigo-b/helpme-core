@@ -3,6 +3,8 @@ package br.com.helpme.helpmecore.improvement.model;
 import br.com.helpme.helpmecore.user.model.User;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "IMPROVEMENT")
@@ -22,6 +24,9 @@ public class Improvement {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="ID_USER", nullable=false)
     private User user;
+
+    @ManyToMany(mappedBy = "improvementsLiked")
+    private List<User> usersLikes;
 
     public Improvement() {
     }
@@ -70,5 +75,19 @@ public class Improvement {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public List<User> getUsersLikes() {
+        return usersLikes;
+    }
+
+    public boolean userLikedOrDesliked(User user){
+        if(this.getUsersLikes().contains(user))
+            return true;
+        return false;
     }
 }

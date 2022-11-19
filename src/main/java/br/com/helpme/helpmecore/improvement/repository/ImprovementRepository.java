@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import static br.com.helpme.helpmecore.improvement.repository.ImprovementQueries.FIND_ALL_BY_USER_ID;
@@ -20,4 +21,6 @@ public interface ImprovementRepository extends JpaRepository<Improvement, Long> 
 
     @Query(value=FIND_ALL_BY_USER_ID)
     Page<Improvement> findAllByUserId(long userId, Pageable pageable);
+
+    Optional<Improvement> findByTitle(String title);
 }

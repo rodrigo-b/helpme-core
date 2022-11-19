@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -34,6 +35,15 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name="ID_USER"))
     private Set<Role> roles;
 
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
+    @JoinTable( name = "USER_IMPROVEMENT",
+                joinColumns = @JoinColumn(name="ID_IMPROVEMENT"),
+                inverseJoinColumns = @JoinColumn(name="ID_USER")
+    )
+    private List<Improvement> improvementsLiked;
     @OneToMany(mappedBy="user")
     private Set<Improvement> improvements;
 
@@ -126,4 +136,11 @@ public class User implements UserDetails {
         this.improvements = improvements;
     }
 
+    public List<Improvement> getImprovementsLiked() {
+        return improvementsLiked;
+    }
+
+    public void setImprovementsLiked(List<Improvement> improvementsLiked) {
+        this.improvementsLiked = improvementsLiked;
+    }
 }

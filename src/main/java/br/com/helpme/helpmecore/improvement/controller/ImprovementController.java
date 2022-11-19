@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -32,16 +31,16 @@ public class ImprovementController {
         return "newImprovement.html";
     }
 
-    @PostMapping("/count")
+    @PostMapping("/change-like")
     public ResponseEntity<?> countImprovementLike(@RequestBody String title){
 
         System.out.println("PAsssou aquui");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
 
-        improvementService.addLike(email, title);
+        int liked = improvementService.changeLikeState(email, title);
 
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok(liked);
     }
 
     @PostMapping
@@ -55,17 +54,13 @@ public class ImprovementController {
     }
 
     @GetMapping("/all")
-    public String findAll(Model model, Pageable pageable , @RequestParam List<Improvement> specificImprovements){
+    public String findAll(Model model, Pageable pageable){
 
         ImprovementPageManagement improvementPageManagement;
-        if(specificImprovements.isEmpty()){
-            Page<Improvement> improvements = improvementService.findAll(pageable);
-            improvementPageManagement = new ImprovementPageManagement(improvements);
-            model.addAttribute("improvements", improvements);
-        }else{
-            improvementPageManagement = new ImprovementPageManagement(specificImprovements);
-            model.addAttribute("improvements", specificImprovements);
-        }
+
+        Page<ImprovementDto> improvements = improvementService.findAll(pageable);
+        improvementPageManagement = new ImprovementPageManagement(improvements.getSize());
+        model.addAttribute("improvements", improvements);
 
         model.addAttribute("pages", improvementPageManagement.getPages());
         model.addAttribute("next", improvementPageManagement.getNextPage());

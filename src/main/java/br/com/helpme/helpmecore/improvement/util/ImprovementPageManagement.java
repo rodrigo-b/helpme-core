@@ -1,5 +1,6 @@
 package br.com.helpme.helpmecore.improvement.util;
 
+import br.com.helpme.helpmecore.improvement.dto.ImprovementDto;
 import br.com.helpme.helpmecore.improvement.model.Improvement;
 import org.springframework.data.domain.Page;
 
@@ -22,15 +23,13 @@ public class ImprovementPageManagement {
         updatePages();
     }
 
-    public ImprovementPageManagement(List<Improvement> improvements) {
+    public ImprovementPageManagement(int size) {
         int initialPage = 0;
         this.currentPage = initialPage;
-        this.totalPages = improvements.size();
+        this.totalPages = size;
         pages = new ArrayList<>();
         updatePages();
     }
-
-
 
     public void updatePages(){
         updatePreviousPage();
