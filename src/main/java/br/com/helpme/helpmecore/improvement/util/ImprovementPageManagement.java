@@ -44,7 +44,7 @@ public class ImprovementPageManagement {
             pages.add(nextPage);
 
         if(hasPage(this.currentPage + 2))
-            pages.add(nextPage + 2);
+            pages.add(nextPage + 1);
     }
 
     private void updateNextPage() {

@@ -84,10 +84,4 @@ public class Improvement {
     public List<User> getUsersLikes() {
         return usersLikes;
     }
-
-    public boolean userLikedOrDesliked(User user){
-        if(this.getUsersLikes().contains(user))
-            return true;
-        return false;
-    }
 }

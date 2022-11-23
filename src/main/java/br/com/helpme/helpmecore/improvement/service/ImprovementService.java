@@ -101,8 +101,8 @@ public class ImprovementService {
 
         allPages.forEach(improvement -> {
             ImprovementDto improvementDto = new ImprovementDto(improvement, user);
-            if(improvement.userLikedOrDesliked(user)){
-                Optional<UserImprovement> byIdUserAndIdImprovement = userImprovementRepository.findByIdUserAndIdImprovement(user.getIdUser(), improvement.getId());
+            Optional<UserImprovement> byIdUserAndIdImprovement = userImprovementRepository.findByIdUserAndIdImprovement(user.getIdUser(), improvement.getId());
+            if(byIdUserAndIdImprovement.isPresent()){
                 improvementDto.setLikedByUser(byIdUserAndIdImprovement.get().getLiked());
             }else{
                 improvementDto.setLikedByUser(0);

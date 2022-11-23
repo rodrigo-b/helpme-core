@@ -59,7 +59,7 @@ public class ImprovementController {
         ImprovementPageManagement improvementPageManagement;
 
         Page<ImprovementDto> improvements = improvementService.findAll(pageable);
-        improvementPageManagement = new ImprovementPageManagement(improvements.getSize());
+        improvementPageManagement = new ImprovementPageManagement(improvements.getTotalPages());
         model.addAttribute("improvements", improvements);
 
         model.addAttribute("pages", improvementPageManagement.getPages());
