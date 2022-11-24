@@ -6,9 +6,21 @@
         <meta name="viewport" content="initial-scale=1, width=device-width">
         <meta charset="utf-8">
         <title>Login</title>
+        <th:block th:include="layout :: headerfiles-layout"></th:block>
+        <style>
+              #loginForm {
+                padding-top: 200px;
+            }
+        </style>
     </head>
     <body>
-        <div class="container p-5">
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <span class="navbar-brand">HELPME</span>
+            </div>
+        </nav>
+
+        <div id="loginForm" class="container align-middle">
              <div>
                  <form class="form-example" action="/login" method="post" >
                     <div class="form-group mb-3">
