@@ -95,7 +95,7 @@
                                 <td th:text="${improvement.title}" />
                                 <td th:text="${improvement.classification}" />
                                 <td>
-                                    <button  type="button" class="btn btn-default" onclick="buttomClick()">
+                                    <button th:id="${improvement.title}" type="button" class="btn btn-default" onclick="buttomClick()">
                                         <span class="glyphicon glyphicon-thumbs-up"></span>
                                     </button>
                                     <span th:text="${improvement.likes}"></span>
@@ -109,5 +109,19 @@
         </div>
     </div>
 </main>
+    <script th:inline="javascript">
+                var titles = [[${improvements}]];
+
+                for(let i = 0; i < titles.length;i++){
+                  var buttom = document.getElementById(titles[i].title);
+                  console.log("liked by user = " + titles[i].likedByUser);
+
+                  if(titles[i].likedByUser == 1){
+                    buttom.style.backgroundColor = "LightBlue";
+                  }else if(titles[i].likedByUser == 0){
+                    buttom.style.backgroundColor = "white";
+                  }
+                }
+        </script>
 </body>
 </html>

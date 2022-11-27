@@ -86,9 +86,9 @@ public class ImprovementController {
     }
 
     @GetMapping("/search")
-    public String searchImprovement(@RequestParam  String search, Model model){
+    public String searchImprovement(@RequestParam  String search, Model model, Pageable pageable){
 
-        List<Improvement> improvements = improvementService.findSimilarityImprovements(search.toUpperCase());
+        List<ImprovementDto> improvements = improvementService.findSimilarityImprovements(search.toUpperCase());
 
         model.addAttribute("improvements", improvements);
         return "searchResult";

@@ -130,16 +130,35 @@ public class ImprovementService {
         throw new RuntimeException("Invallid user");
     }
 
-    public List<Improvement> findSimilarityImprovements(String improvementSearch) {
+    public List<ImprovementDto> findSimilarityImprovements(String improvementSearch) {
 
-        return findAllWithoutPagination()
-                .stream()
-                .filter(improvement -> {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        Optional<User> userOptional = userService.findByEmail(email);
+
+        User user = userOptional.get();
+
+        List<ImprovementDto> improvementDtos = new ArrayList<>();
+
+        findAllWithoutPagination()
+                .stream().filter(improvement -> {
                     double similarity = similarityService.checkSimilarity(improvementSearch, improvement.getTitle());
                     return similarity >= 40.0;
                 })
-                .toList();
+                .forEach(improvement -> {
 
+                    ImprovementDto improvementDto = new ImprovementDto(improvement, user);
+                    Optional<UserImprovement> byIdUserAndIdImprovement = userImprovementRepository.findByIdUserAndIdImprovement(user.getIdUser(), improvement.getId());
+                    if(byIdUserAndIdImprovement.isPresent()){
+                        improvementDto.setLikedByUser(byIdUserAndIdImprovement.get().getLiked());
+                    }else{
+                        improvementDto.setLikedByUser(0);
+                    }
+
+                    improvementDtos.add(improvementDto);
+        });
+
+        return improvementDtos;
     }
 
     public int changeLikeState(String email, String title) {
