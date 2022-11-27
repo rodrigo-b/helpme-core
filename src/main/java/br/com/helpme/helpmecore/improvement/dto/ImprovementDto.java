@@ -16,6 +16,9 @@ public class ImprovementDto {
 
     private int likedByUser;
 
+    public ImprovementDto() {
+    }
+
     public ImprovementDto(Improvement improvement, User user) {
         this.classification = improvement.getClassification().name();
         this.title = improvement.getTitle();
@@ -50,7 +53,7 @@ public class ImprovementDto {
 
     public Improvement toImprovement() {
         Optional<Classification> enumByClassificationTextOptional = Classification.getEnumByClassificationText(this.classification);
-        return new Improvement(this.title,this.message,enumByClassificationTextOptional.get());
+        return new Improvement(this.title.toUpperCase(),this.message.toUpperCase(),enumByClassificationTextOptional.get());
     }
 
     public int getLikes() {

@@ -70,7 +70,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     httpSecurityFormLoginConfigurer.defaultSuccessUrl("/index",true);
                     httpSecurityFormLoginConfigurer.usernameParameter("email");
                     httpSecurityFormLoginConfigurer.passwordParameter("password");
+                    httpSecurityFormLoginConfigurer.failureUrl("/login?error=true");
                     })
+
                 .logout()
                     .logoutUrl("/logout")
                     .logoutSuccessUrl("/login")
@@ -89,44 +91,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         return encoder;
     }
-
- /*   public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-
-        httpSecurity.authorizeRequests( (requests) -> {
-                        requests
-                            .antMatchers(HttpMethod.GET, "/index").hasRole(RoleName.ROLE_USER.getRoleWithoutPrefix())
-                            .anyRequest().authenticated();
-                    })
-                    .formLogin((form) -> {
-                        form.loginPage("/login")
-                        .permitAll();
-                    })
-                    .csrf().disable();
-                    //.authenticationManager(authentication -> authentication.)
-                   // .logout( (logout) -> logout.permitAll());
-
-        return httpSecurity.build();
-    }
-
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.debug(securityDebug)
-                .ignoring()
-                .antMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/favicon.ico");
-    }*/
-
-    /*@Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }*/
-
-/*    @Bean
-    public AuthenticationManager authManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder, UserDetailsService userDetailService)
-            throws Exception {
-        return http.getSharedObject(AuthenticationManagerBuilder.class)
-                .userDetailsService(customUserDetailService)
-                .passwordEncoder(bCryptPasswordEncoder)
-                .and()
-                .build();
-    }*/
 }

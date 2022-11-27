@@ -34,7 +34,6 @@ public class ImprovementController {
     @PostMapping("/change-like")
     public ResponseEntity<?> countImprovementLike(@RequestBody String title){
 
-        System.out.println("PAsssou aquui");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
 
@@ -89,7 +88,7 @@ public class ImprovementController {
     @GetMapping("/search")
     public String searchImprovement(@RequestParam  String search, Model model){
 
-        List<Improvement> improvements = improvementService.findSimilarityImprovements(search);
+        List<Improvement> improvements = improvementService.findSimilarityImprovements(search.toUpperCase());
 
         model.addAttribute("improvements", improvements);
         return "searchResult";

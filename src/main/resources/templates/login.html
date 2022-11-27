@@ -11,6 +11,11 @@
               #loginForm {
                 padding-top: 200px;
             }
+
+            #errorMessage{
+                padding-left: 320px;
+                color: red;
+            }
         </style>
     </head>
     <body>
@@ -34,6 +39,9 @@
                      </div>
                 </form>
             </div>
+        </div>
+        <div th:if="${IS_SUCESSFUL_AUTH} == false">
+            <span id="errorMessage" th:text="${MSG_ERROR}"/>
         </div>
     </body>
     <footer>
