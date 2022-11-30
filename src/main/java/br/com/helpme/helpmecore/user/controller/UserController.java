@@ -54,12 +54,18 @@ public class UserController {
     }
 
     @PostMapping("/password")
-    public String changePassword(PasswordDTO passwordDTO){
+    public String changePassword(PasswordDTO passwordDTO, Model model){
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
 
-        userService.changePassword(email, passwordDTO);
+        try {
+            userService.changePassword(email, passwordDTO);
+        }catch (RuntimeException error){
+            model.addAttribute("MSG_ERROR", error.getMessage());
+            return "password-edit";
+        }
+
         return "redirect:index";
     }
 

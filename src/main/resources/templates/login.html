@@ -39,10 +39,12 @@
                      </div>
                 </form>
             </div>
+
+            <div th:if="${IS_SUCESSFUL_AUTH} == false" align="center">
+                <span id="errorMessage" th:text="${MSG_ERROR}"/>
+            </div>
         </div>
-        <div th:if="${IS_SUCESSFUL_AUTH} == false">
-            <span id="errorMessage" th:text="${MSG_ERROR}"/>
-        </div>
+
     </body>
     <footer>
 
