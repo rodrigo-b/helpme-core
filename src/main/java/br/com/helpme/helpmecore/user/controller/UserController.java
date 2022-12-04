@@ -2,6 +2,7 @@ package br.com.helpme.helpmecore.user.controller;
 
 import br.com.helpme.helpmecore.user.dto.PasswordDTO;
 import br.com.helpme.helpmecore.user.dto.ProfileDTO;
+import br.com.helpme.helpmecore.user.dto.UserDTO;
 import br.com.helpme.helpmecore.user.model.User;
 import br.com.helpme.helpmecore.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,13 +70,40 @@ public class UserController {
         return "redirect:index";
     }
 
+    @GetMapping("/register")
+    public String showRegisterPage(){
+        return "register";
+    }
+
+    @PostMapping("/register")
+    public String registerUser(UserDTO userDTO, Model model){
+
+        try{
+            userService.register(userDTO);
+        }catch (RuntimeException error){
+            model.addAttribute("MSG_ERROR", error.getMessage());
+            return "register";
+        }
+
+        return "redirect:/login";
+    }
+
     @PostMapping("/profile/edit")
-    public String changeProfile(ProfileDTO profileDTO){
+    public String changeProfile(ProfileDTO profileDTO, Model model){
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
 
-        userService.updateUserProfile(email,profileDTO);
+
+        try {
+            userService.updateUserProfile(email,profileDTO);
+        }catch (RuntimeException error){
+            model.addAttribute("MSG_ERROR", error.getMessage());
+            return "profile-edit";
+        }
+
+
+
         return "redirect:/users/profile";
     }
 }

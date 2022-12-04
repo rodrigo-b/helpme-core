@@ -95,6 +95,10 @@
                 </div>
 
             </form>
+
+            <div th:if="${MSG_ERROR} != null" align="center">
+                <span id="errorMessage" th:text="${MSG_ERROR}" style="color:red"/>
+            </div>
         </div>
     </div>
 </main>

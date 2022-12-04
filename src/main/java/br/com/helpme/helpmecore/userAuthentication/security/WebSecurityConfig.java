@@ -60,6 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeHttpRequests()
                 .antMatchers(HttpMethod.GET, "/login").permitAll()
+                .antMatchers("/users/register").permitAll()
                 .antMatchers("/resources/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/").hasRole("USER")
                 .anyRequest().authenticated()
@@ -72,7 +73,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     httpSecurityFormLoginConfigurer.passwordParameter("password");
                     httpSecurityFormLoginConfigurer.failureUrl("/login?error=true");
                     })
-
                 .logout()
                     .logoutUrl("/logout")
                     .logoutSuccessUrl("/login")
