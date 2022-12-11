@@ -1,4 +1,4 @@
-# HELP-ME
+# HELPME-CORE
 #### Video Demo:  https://youtu.be/3YbaJKwomOo
 #### Description:
 > The help-me project was inspired by a brazilian web site know as
