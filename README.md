@@ -1,5 +1,5 @@
 # HELP-ME
-#### Video Demo:  <URL HERE>
+#### Video Demo:  https://youtu.be/3YbaJKwomOo
 #### Description:
 > The help-me project was inspired by a brazilian web site know as
 > [ReclameAqui](https://www.reclameaqui.com.br/), the objective of reclameAqui
@@ -62,7 +62,7 @@ related to leisure.
 #### Where is running
 
 >* I choosed heroku plataform to do the deploy because heroku is free and I wanted to learn more about it.
->* This is the url to access the project -> 
+>* This is the url to access the project -> https://helpme-core.herokuapp.com/login
 
 #### Observations
 >* queries.sql file contain queries used to do tests.
